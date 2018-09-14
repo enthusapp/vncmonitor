@@ -1,0 +1,19 @@
+{
+  "name": "vncmonitor",
+  "version": "1.0.0",
+  "description": "Monitor VNC server, then connect.",
+  "main": "vncmonitor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enthusapp/vncmonitor.git"
+  },
+  "author": "DoheeHan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enthusapp/vncmonitor/issues"
+  },
+  "homepage": "https://github.com/enthusapp/vncmonitor#readme"
+}
