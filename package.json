@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/enthusapp/vncmonitor/issues"
   },
-  "homepage": "https://github.com/enthusapp/vncmonitor#readme"
+  "homepage": "https://github.com/enthusapp/vncmonitor#readme",
+  "dependencies": {
+    "partial": "0.0.6"
+  }
 }
