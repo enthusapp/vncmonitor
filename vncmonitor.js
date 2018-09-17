@@ -1,4 +1,5 @@
 const _ = require('partial');
+const { spawn } = require('child_process');
 const hd = require('./lib/helper');
 
 const config = {
@@ -10,10 +11,7 @@ const config = {
 };
 
 const ncCheck = cb => {
-  return hd.childErrorOnce({
-    commnad: 'nc',
-    option: ['-vz', config.ip, config.port]
-  }, data => {
+  return hd.childErrorOnce(spawn('nc', ['-vz', config.ip, config.port]), data => {
     cb(/succeeded/.test(`${data}`) ? 1 : -1, data)
   });
 }
