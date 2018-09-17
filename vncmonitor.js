@@ -1,4 +1,3 @@
-const { spawn } = require('child_process');
 const _ = require('partial');
 const hd = require('./lib/helper');
 
