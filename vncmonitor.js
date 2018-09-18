@@ -1,5 +1,4 @@
 const _ = require('partial');
-const { spawn } = require('child_process');
 const hd = require('./lib/helper');
 
 const config = {
@@ -13,11 +12,28 @@ const config = {
 let vnc = {
   count: 0,
   first: true,
-  connected: false
+  connected: false,
+  process: null
 };
 
-const vncRun = () => {console.log('vncRun');};
-const vncStop = () => {console.log('vncStop');};
+const vncRun = () => {
+  console.log('vncRun');
+  vnc.process = hd.child('vncviewer', [config.ip], {
+    stdout: () => {},
+    stderr: () => {},
+    close: () => {
+      vnc.connected = false;
+      vnc.process = null;
+    },
+  })();
+};
+
+const vncStop = () => {
+  console.log('vncStop');
+  if (vnc.process != null)
+    vnc.process.kill();
+};
+
 const localRun = () => {console.log('localRun');};
 const localStop = () => {console.log('localStop');};
 
@@ -36,10 +52,12 @@ setInterval(hd.childErrorOnce('nc', ['-vz', config.ip, config.port], data => {
       }
  } else {
     if (vnc.connected) {
+    /* for test
+      if (vnc.count > 100) {*/
       if (vnc.count < config.failWaitTime) {
-        vnc.connected = false;
         vncStop();
         localRun();
+        vnc.count = 0;
       }
     } else {
       if (vnc.count > config.recoverTime) {
