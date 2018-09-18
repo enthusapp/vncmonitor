@@ -5,16 +5,10 @@ const hd = require('./lib/helper');
 const config = {
   ip: '192.168.0.109',
   port: '5900',
-  firstTime: 10,
-  failWaitTime: 540,
+  firstTime: 1,
+  failWaitTime: -540,
   recoverTime: 60
 };
-
-const ncCheck = cb => {
-  return hd.childErrorOnce(spawn('nc', ['-vz', config.ip, config.port]), data => {
-    cb(/succeeded/.test(`${data}`) ? 1 : -1, data)
-  });
-}
 
 let vnc = {
   count: 0,
@@ -27,8 +21,8 @@ const vncStop = () => {console.log('vncStop');};
 const localRun = () => {console.log('localRun');};
 const localStop = () => {console.log('localStop');};
 
-setInterval(ncCheck(r => {
-  if (r > 0) {
+setInterval(hd.childErrorOnce('nc', ['-vz', config.ip, config.port], data => {
+  if (/succeeded/.test(`${data}`)) {
     vnc.count = vnc.count < 0 ? 0 : vnc.count + 1;
   } else {
     vnc.count = vnc.count > 0 ? -1 : vnc.count - 1;
@@ -40,7 +34,7 @@ setInterval(ncCheck(r => {
         vnc.connected = true;
         vncRun();
       }
-	} else {
+ } else {
     if (vnc.connected) {
       if (vnc.count < config.failWaitTime) {
         vnc.connected = false;
