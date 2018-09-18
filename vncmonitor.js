@@ -6,7 +6,7 @@ const config = {
   port: '5900',
   firstTime: 1,
   failWaitTime: -540,
-  recoverTime: 60
+  recoverTime: 10
 };
 
 let vnc = {
@@ -53,11 +53,12 @@ setInterval(hd.childErrorOnce('nc', ['-vz', config.ip, config.port], data => {
  } else {
     if (vnc.connected) {
     /* for test
-      if (vnc.count > 100) {*/
+      if (vnc.count > 100) {
+        vnc.count = 0;
+        */
       if (vnc.count < config.failWaitTime) {
         vncStop();
         localRun();
-        vnc.count = 0;
       }
     } else {
       if (vnc.count > config.recoverTime) {
