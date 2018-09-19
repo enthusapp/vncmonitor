@@ -1,0 +1,15 @@
+[Unit]
+Description=VNC Monitor
+After=multi-user.target
+User=root
+ 
+[Service]
+Type=idle
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/node /home/pi/vncmonitor/vncmonitor.js
+Restart=on-abort
+Environment=DISPLAY=:0.0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+ 
+[Install]
+WantedBy=multi-user.target

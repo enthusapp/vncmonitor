@@ -45,6 +45,7 @@ function localRun() {
     stdout: () => {},
     stderr: () => {},
     close: () => {
+      console.log('local Closed');
       vnc.process2 = null;
     },
   })();
